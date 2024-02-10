@@ -22,27 +22,10 @@ app.get("/", function (request, response) {
     response.send("The Server is Running😍😍😍");
 });
 
+
 app.use("/user", userRouter);
 
-//insert mails to inbox
-app.post("/inbox", async (request, response) => {
-    const data = request.body;
-    const result = await client.db('gmailClone')
-        .collection('inbox')
-        .insertMany(data);
 
-    response.send(result);
-});
-
-//get mails for inbox
-app.get("/inbox", async (request, response) => {
-    const mails = await client.db('gmailClone')
-        .collection('inbox')
-        .find({})
-        .toArray();
-
-    response.send(mails);
-});
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
 
