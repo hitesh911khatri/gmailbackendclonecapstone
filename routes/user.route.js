@@ -66,7 +66,7 @@ router.post("/inbox", async (request, response) => {
 });
 
 //get mails for inbox
-app.get("/inbox", async (request, response) => {
+router.get("/inbox", async (request, response) => {
     const mails = await client.db('gmailClone')
         .collection('inbox')
         .find({})
