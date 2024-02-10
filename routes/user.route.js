@@ -2,6 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { createUser, generateHashedPassword, getUserByName } from '../services/user.service.js';
+import { client } from '../index.js';
 
 const router = express.Router();
 
@@ -50,7 +51,28 @@ router.post("/signin", async (request, response) => {
         }
     }
 
-})
+});
 
+//sending data to inbox
+router.post("/inbox", async (request, response) => {
+    console.log("inbox route");
+    console.log(response);
+    const data = request.body;
+    const result = await client.db('gmailClone')
+        .collection('inbox')
+        .insertOne(data);
+
+    response.send(result);
+});
+
+//get mails for inbox
+app.get("/inbox", async (request, response) => {
+    const mails = await client.db('gmailClone')
+        .collection('inbox')
+        .find({})
+        .toArray();
+
+    response.send(mails);
+});
 
 export default router;
